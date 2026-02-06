@@ -3,6 +3,14 @@ title: "ST_512-homework3"
 author: "Lindsay Dodson"
 format: pdf
 ---
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(broom)
+```
+
 ## Problem 1
 
 **a**
@@ -13,27 +21,113 @@ format: pdf
 ```
 
 **b**
+
 ```{r}
 # x=3, y=30
 25-0.5*3
 
 30-(25-0.5*3)
 ```
-The point is above the line because the residual is positive. 
 
-**c**
-If x increases 3 units, $\hat{y}$ decreases 1.5. 
+The point is above the line because the residual is positive.
+
+**c** If x increases 3 units, $\hat{y}$ decreases 1.5.
+
 ```{r}
 -0.5*3
 ```
 
 **d**
 
-According to the linear model, it is predicted that the test score would be 22. However, it is not guranteed that the test score will always be 22 when training 6 hours.
+According to the linear model, it is predicted that the test score would be 22. The value 22 is the mean of all of probability curve of values that could occur when x=6.
 
 **e**
+
 ```{r}
 7/(16-2)
 ```
 
+## Problem 2
 
+**a**
+
+|            |     |         |          |          |          |
+|------------|-----|---------|----------|----------|----------|
+| Source     | df  | SS      | MS       | F-value  | p-value  |
+| Regression | 1   | 8654.7  | 8654.7   | 103.7128 | 7.45e-16 |
+| Error      | 76  | 6342.1  | 83.44868 |          |          |
+| Total      | 77  | 14996.8 |          |          |          |
+
+**b**
+
+## Problem 4
+
+```{r}
+gpa_data<-read.table(file.choose(), header=T)
+names(gpa_data)
+head(gpa_data)
+tail(gpa_data)
+attach(gpa_data)
+
+```
+
+**a**
+
+```{r}
+gpa_data|>
+  summarise(mean_ACT=mean(ACT), mean_GPA=mean(GPA), var_ACT=var(ACT),var_GPA=var(GPA))
+```
+
+**b**
+
+```{r}
+cor(ACT, GPA)
+```
+
+T variables have a weak, positive correlation.
+
+**c**
+
+```{r}
+model4<-lm(GPA~ACT)
+plot(ACT, GPA)
+abline(model4)
+```
+
+The relationship is approximately linear.
+
+**d**
+
+```{r}
+model4
+
+```
+
+$\hat{GPA}=2.11405 + 0.03883*ACT$
+
+**e**
+
+When the entrance exam increases by 1, the GPA is estimated to increase by 0.03883
+
+When the entrance exam increase by 4, the GPA is estimated to increase by 0.15532.
+
+**f**
+
+```{r}
+ 2.11405 + 0.03883*20
+```
+
+**g** estimate variance and std dev
+
+**h**
+
+```{r}
+confint(model4, level=0.95)
+confint(model4, "ACT", level =0.95)
+```
+
+**i** 95% CI for ACT=28
+
+```{r}
+#use predict function
+```
