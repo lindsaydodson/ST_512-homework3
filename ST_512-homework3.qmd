@@ -1,0 +1,39 @@
+---
+title: "ST_512-homework3"
+author: "Lindsay Dodson"
+format: pdf
+---
+## Problem 1
+
+**a**
+
+```{r}
+# x=7
+25-0.5*7
+```
+
+**b**
+```{r}
+# x=3, y=30
+25-0.5*3
+
+30-(25-0.5*3)
+```
+The point is above the line because the residual is positive. 
+
+**c**
+If x increases 3 units, $\hat{y}$ decreases 1.5. 
+```{r}
+-0.5*3
+```
+
+**d**
+
+According to the linear model, it is predicted that the test score would be 22. However, it is not guranteed that the test score will always be 22 when training 6 hours.
+
+**e**
+```{r}
+7/(16-2)
+```
+
+
