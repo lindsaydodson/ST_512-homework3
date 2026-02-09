@@ -59,6 +59,20 @@ According to the linear model, it is predicted that the test score would be 22. 
 | Total      | 77  | 14996.8 |          |          |          |
 
 **b**
+$R^2=\frac{SSR}{SST}$
+```{r}
+1/77
+```
+Only 1.29% of the variation observed in rating is explained by sugar.
+
+**c**
+estimate $\sigma^2$
+
+**d**
+use F test to test H0 and Ha
+
+## Problem 3 ##
+
 
 ## Problem 4
 
@@ -118,6 +132,10 @@ When the entrance exam increase by 4, the GPA is estimated to increase by 0.1553
 ```
 
 **g** estimate variance and std dev
+```{r}
+
+```
+
 
 **h**
 
@@ -131,3 +149,10 @@ confint(model4, "ACT", level =0.95)
 ```{r}
 #use predict function
 ```
+
+## Problem 5 ##
+
+```{r}
+
+```
+
