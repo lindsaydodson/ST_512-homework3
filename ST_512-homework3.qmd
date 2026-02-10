@@ -71,7 +71,7 @@ estimate $\sigma^2$
 **d**
 use F test to test H0 and Ha
 
-## Problem 3 ##
+## Problem 3 
 
 
 ## Problem 4
@@ -147,12 +147,41 @@ confint(model4, "ACT", level =0.95)
 **i** 95% CI for ACT=28
 
 ```{r}
-#use predict function
+confint(model4, "ACT", level = 0.9)
 ```
 
-## Problem 5 ##
+
+**j** 95% PI for ACT=28
 
 ```{r}
-
+#use predict function and create new data frame with just ACT=28 new.data<-data.frame(ACT=28)
+ACT_28<- data.frame(ACT=28)
+predict(model4,ACT_28,interval="confidence", level = 0.95, se.fit = T)
 ```
 
+## Problem 5 
+
+```{r}
+age <- c(3, 4, 5, 6, 3, 4, 5, 6, 3, 4, 5, 6, 3, 4, 5, 6, 3, 4, 5, 6, 3, 4, 5, 6, 6) 
+weight <- c(2.61, 2.67, 2.98, 3.98, 2.87, 3.41, 3.49, 4.03, 3.41, 2.81, 3.24, 3.75, 3.18, 3.13, 3.98, 4.55, 3.41, 3.35, 3.75, 3.83, 3.18, 3.52, 3.49, 3.81, 4.03) 
+systolic_BP <- c(80, 90, 96, 102, 81, 96, 99, 110, 88, 90, 100, 102, 86, 93, 101, 103, 86, 91, 100, 105, 84, 91, 95, 104, 107) 
+# Create a data frame 
+infants <-data.frame(age, weight, systolic_BP)
+```
+**a**
+$\hat{systolic BP}= \hat{\beta}_0 + \hat{\beta}_1 * age + \hat{\beta}_2 * weight + \epsilon$
+
+**b**
+```{r}
+model5<- lm(systolic_BP ~ age+weight, data = infants)
+model5
+```
+$\hat{systolic BP}= 57.264 + 5.804 * age + 3.316 * weight$
+
+
+**c** estimated residual std dev
+
+
+**d**
+
+The coefficient of weight is directly related to the systolic BP. As weight increases by one kgm, systolic BP increases by 3.316.
