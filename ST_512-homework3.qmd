@@ -24,9 +24,9 @@ library(broom)
 
 ```{r}
 # x=3, y=30
-25-0.5*3
+25-0.5*3 
 
-30-(25-0.5*3)
+30-(25-0.5*3) #residual
 ```
 
 The point is above the line because the residual is positive.
@@ -39,7 +39,7 @@ The point is above the line because the residual is positive.
 
 **d**
 
-According to the linear model, it is predicted that the test score would be 22. The value 22 is the mean of all of probability curve of values that could occur when x=6.
+According to the linear model, it is predicted that the test score would be 22. The value 22 is the mean of all of probability curve of values that could occur when x=6. This is also just one linear model. 
 
 **e**
 
@@ -54,25 +54,77 @@ According to the linear model, it is predicted that the test score would be 22. 
 |            |     |         |          |          |          |
 |------------|-----|---------|----------|----------|----------|
 | Source     | df  | SS      | MS       | F-value  | p-value  |
-| Regression | 1   | 8654.7  | 8654.7   | 103.7128 | 7.45e-16 |
-| Error      | 76  | 6342.1  | 83.44868 |          |          |
-| Total      | 77  | 14996.8 |          |          |          |
+| Regression | 1   | 8654.7  | 8654.7   | 102.3481 |1.153E-15 |
+| Error      | 75  | 6342.1  | 84.5613  |          |          |
+| Total      | 76  | 14996.8 |          |          |          |
 
 **b**
+
 $R^2=\frac{SSR}{SST}$
 ```{r}
-1/77
+6342.1/14996.8
 ```
-Only 1.29% of the variation observed in rating is explained by sugar.
+42.3% of the variation observed in rating is explained by sugar.
 
 **c**
-estimate $\sigma^2$
+
+MSE estimates variance.
+
+$\sigma^2=84.56$
 
 **d**
-use F test to test H0 and Ha
+F=102.35, f=0.003958545
+
+Because F > f, we reject the null hypothesis, which means the linearity assumption is satisfied.
+
+```{r}
+qf(0.05,1,75) #check against excel=3.96 ?
+```
 
 ## Problem 3 
 
+```{r}
+b_0<- 58.816
+b_1<- -1.867
+sb_1<- 0.346
+MSE<-4.417
+```
+
+**a**
+```{r}
+t_val3<-abs(b_1/sb_1) # this is the t observed value, take absolute value
+t_val3
+t_cv<-qt(0.975,20-2) # one or two tail for alpha?
+t_cv
+## 2*(1-pt(t_val3,18)) # is df_error=n-p=20-2 ?
+```
+Because the t-value is greater than the t critical value (5.39>2.1), we reject the null hypothesis and conclude that there is a linear relationship.
+
+**b**
+
+```{r}
+b_1-(t_cv*sb_1)
+b_1+(t_cv*sb_1)
+```
+The 95% confidence interval for $\beta_1$ is (-2.59,-1.40).
+
+**c**
+```{r}
+y_10<- b_0+b_1*10
+y_10
+sd_10<-0.7342
+y_10-(t_cv*sd_10)
+y_10+(t_cv*sd_10)
+```
+The 95% confidence interval is (38.60,41.69).
+
+**d**
+```{r}
+sd_pred<-2.226 ##CHECK
+y_10-(t_cv*sd_pred)
+y_10+(t_cv*sd_pred)
+```
+The 95% prediction interval is (35.47,44.82).
 
 ## Problem 4
 
@@ -98,7 +150,7 @@ gpa_data|>
 cor(ACT, GPA)
 ```
 
-T variables have a weak, positive correlation.
+The variables have a weak, positive correlation.
 
 **c**
 
@@ -133,9 +185,12 @@ When the entrance exam increase by 4, the GPA is estimated to increase by 0.1553
 
 **g** estimate variance and std dev
 ```{r}
-
+summary(model4)
 ```
+MSE estimates $\sigma^2$.
 
+$\sigma^2=(0.6231)^2=0.3882536$  ##Check seems small
+$\sigma=0.6231$
 
 **h**
 
@@ -147,7 +202,7 @@ confint(model4, "ACT", level =0.95)
 **i** 95% CI for ACT=28
 
 ```{r}
-confint(model4, "ACT", level = 0.9)
+confint(model4, "ACT", level = 0.9) #is this right?
 ```
 
 
@@ -158,6 +213,7 @@ confint(model4, "ACT", level = 0.9)
 ACT_28<- data.frame(ACT=28)
 predict(model4,ACT_28,interval="confidence", level = 0.95, se.fit = T)
 ```
+The prediction interval is (3.06, 3.34).
 
 ## Problem 5 
 
@@ -180,8 +236,20 @@ $\hat{systolic BP}= 57.264 + 5.804 * age + 3.316 * weight$
 
 
 **c** estimated residual std dev
+```{r}
+summary(model5)
+```
+ Sd=SE*n^2 ## Check ???
+ 
+The residual standard deviation is 1533.75
+```{r}
+2.454*25^2
+```
 
 
 **d**
 
 The coefficient of weight is directly related to the systolic BP. As weight increases by one kgm, systolic BP increases by 3.316.
+
+**e**
+Can hypothesis be rejected alpha=0.01
