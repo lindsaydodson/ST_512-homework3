@@ -13,7 +13,11 @@ library(broom)
 
 ## Problem 1
 
+A regression analysis relating test scores (Y) to training hours (X) produced the following fitted equation: $\hat{y}$=25-0.5x.
+
 **a**
+
+What is the fitted value of the response variable corresponding to x = 7?
 
 ```{r}
 # x=7
@@ -21,6 +25,8 @@ library(broom)
 ```
 
 **b**
+
+What is the residual corresponding to the data point with x = 3 and y = 30?  Is the point above or below the line? Why?
 
 ```{r}
 # x=3, y=30
@@ -31,17 +37,24 @@ library(broom)
 
 The point is above the line because the residual is positive.
 
-**c** If x increases 3 units, $\hat{y}$ decreases 1.5.
+**c** 
+
+If x increases 3 units, how does $\hat{y}$  change?
+
+If x increases 3 units, $\hat{y}$ decreases 1.5.
 
 ```{r}
 -0.5*3
 ```
-
 **d**
 
-According to the linear model, it is predicted that the test score would be 22. The value 22 is the mean of all of probability curve of values that could occur when x=6. This is also just one linear model. 
+An additional test score is to be obtained for a new observation at x = 6. Would the test score for the new observation necessarily be 22? Explain.
+
+According to the linear model, it is predicted that the test score would be 22. The value 22 is the mean of all of probability curve of values that could occur when x=6. This is also just one linear model.
 
 **e**
+
+The error sums of squares (SSE) for this model were found to be 7. If there were n = 16 observations, provide the best estimate for $\sigma^2$.
 
 ```{r}
 7/(16-2)
@@ -49,39 +62,62 @@ According to the linear model, it is predicted that the test score would be 22. 
 
 ## Problem 2
 
+The dataset "Healthy Breakfast" contains, among other variables, the Consumer Reports ratings of 77 cereals and the number of grams of sugar contained in each serving. Considering "Sugars" as the explanatory variable and "Rating" as the response variable generated the following fitted regression equation:
+
+$\hat{rating}$ =59.3-2.40*sugars
+
 **a**
 
-|            |     |         |          |          |          |
-|------------|-----|---------|----------|----------|----------|
-| Source     | df  | SS      | MS       | F-value  | p-value  |
-| Regression | 1   | 8654.7  | 8654.7   | 102.3481 |1.153E-15 |
-| Error      | 75  | 6342.1  | 84.5613  |          |          |
-| Total      | 76  | 14996.8 |          |          |          |
+Complete the ANOVA table.
+
+|            |     |         |         |          |           |
+|------------|-----|---------|---------|----------|-----------|
+| Source     | df  | SS      | MS      | F-value  | p-value   |
+| Regression | 1   | 8654.7  | 8654.7  | 102.3481 | 1.153E-15 |
+| Error      | 75  | 6342.1  | 84.5613 |          |           |
+| Total      | 76  | 14996.8 |         |          |           |
 
 **b**
 
+Find $R^20$ value and interpret that number.
+
 $R^2=\frac{SSR}{SST}$
+
 ```{r}
-6342.1/14996.8
+8654.7/14996.8
 ```
-42.3% of the variation observed in rating is explained by sugar.
+
+57.7% of the variation observed in rating is explained by sugar.
 
 **c**
+
+What is the estimated value of $\sigma^2$?
 
 MSE estimates variance.
 
 $\sigma^2=84.56$
 
-**d**
-F=102.35, f=0.003958545
+**d** 
 
-Because F > f, we reject the null hypothesis, which means the linearity assumption is satisfied.
+Test H_0: β_1=0 against H_a: β_1≠0  using F-test 
 
 ```{r}
-qf(0.05,1,75) #check against excel=3.96 ?
+qf(0.05,1,75) 
 ```
+F=102.35, f=0.003958545
 
-## Problem 3 
+Because F \> f, we reject the null hypothesis, which means the linearity assumption is satisfied.
+
+
+## Problem 3
+
+Athletes are constantly seeking measures of the degree of their cardiovascular fitness prior to a major race. Athletes want to know when their training is at a level that will produce a peak performance. One such measure of fitness is the time to exhaustion from running on a treadmill at a specified angle and speed. The important question is then “Does this measure of cardiovascular fitness translate into performance in a 10-km running race?” Twenty experienced distance runners who professed to be in top condition were evaluated on the treadmill and then
+had their times recorded in a 10-km race.
+
+
+You are provided with the following information:
+
+$\hat{β _0}$=b_0=58.816, $\hat{β _1}$=b_1=-1.867,s(b_1 )=0.346,MSE=4.417
 
 ```{r}
 b_0<- 58.816
@@ -91,6 +127,9 @@ MSE<-4.417
 ```
 
 **a**
+
+Test the hypothesis that there is a linear relationship between the amount of time needed to run a 10-km race and the time to exhaustion on a treadmill.
+
 ```{r}
 t_val3<-abs(b_1/sb_1) # this is the t observed value, take absolute value
 t_val3
@@ -98,17 +137,25 @@ t_cv<-qt(0.975,20-2) # one or two tail for alpha?
 t_cv
 ## 2*(1-pt(t_val3,18)) # is df_error=n-p=20-2 ?
 ```
-Because the t-value is greater than the t critical value (5.39>2.1), we reject the null hypothesis and conclude that there is a linear relationship.
+
+Because the t-value is greater than the t critical value (5.39\>2.1), we reject the null hypothesis and conclude that there is a linear relationship.
 
 **b**
+
+Construct a 95% confidence interval for β1.
 
 ```{r}
 b_1-(t_cv*sb_1)
 b_1+(t_cv*sb_1)
 ```
-The 95% confidence interval for $\beta_1$ is (-2.59,-1.40).
+
+The 95% confidence interval for $\beta_1$ is (-2.59,-1.14).
 
 **c**
+
+Construct a 95% confidence interval for the estimated mean 10-km race when the treadmill time is 10 minutes. Given that sd{$\hat{y} _{x_h=10}$=0.7342
+
+
 ```{r}
 y_10<- b_0+b_1*10
 y_10
@@ -116,20 +163,27 @@ sd_10<-0.7342
 y_10-(t_cv*sd_10)
 y_10+(t_cv*sd_10)
 ```
+
 The 95% confidence interval is (38.60,41.69).
 
 **d**
+
+Construct a 95% prediction interval for an athlete whose treadmill time is 10 minutes. sd(y ̂_pred )=√(mse+(sd{y ̂_(x_h=10)})^2 )=2.226
+
 ```{r}
 sd_pred<-2.226 ##CHECK
 y_10-(t_cv*sd_pred)
 y_10+(t_cv*sd_pred)
 ```
+
 The 95% prediction interval is (35.47,44.82).
 
 ## Problem 4
 
+The director of admissions of a small college selected 120 students at random from the new freshman class in a study to determine whether a student's grade point average (GPA) at the end of the freshman year (Y) can be predicted from the ACT test score (X). The results of the study follow. Assume that first-order regression model Y_i=β_0+β_1*X_i+ε_i is appropriate. 
+
 ```{r}
-gpa_data<-read.table(file.choose(), header=T)
+gpa_data<-read.table("gpa_data", header=T)
 names(gpa_data)
 head(gpa_data)
 tail(gpa_data)
@@ -139,12 +193,16 @@ attach(gpa_data)
 
 **a**
 
+Compute the mean and variance of ACT test score and GPA.
+
 ```{r}
 gpa_data|>
   summarise(mean_ACT=mean(ACT), mean_GPA=mean(GPA), var_ACT=var(ACT),var_GPA=var(GPA))
 ```
 
 **b**
+
+Compute the correlation between ACT test score and GPA. Comment on the strength and direction of the linear relationship between the variables.
 
 ```{r}
 cor(ACT, GPA)
@@ -153,6 +211,8 @@ cor(ACT, GPA)
 The variables have a weak, positive correlation.
 
 **c**
+
+Construct a scatter plot. Is the relationship approximately linear?
 
 ```{r}
 model4<-lm(GPA~ACT)
@@ -164,6 +224,8 @@ The relationship is approximately linear.
 
 **d**
 
+Run a linear regression to predict GPA based on the ACT score. Give the regression equation.
+
 ```{r}
 model4
 
@@ -173,49 +235,69 @@ $\hat{GPA}=2.11405 + 0.03883*ACT$
 
 **e**
 
+What is the point estimate of the change in the mean response when the entrance test score increases by one point? And increases by 4 points?
+
 When the entrance exam increases by 1, the GPA is estimated to increase by 0.03883
 
 When the entrance exam increase by 4, the GPA is estimated to increase by 0.15532.
 
 **f**
 
+Based on your answer in (e), predict the GPA of a student who scored 20 on the ACT.
+
 ```{r}
  2.11405 + 0.03883*20
 ```
 
-**g** estimate variance and std dev
+**g** 
+
+Estimate $\sigma$ and $\sigma^2$
+
 ```{r}
 summary(model4)
 ```
+
 MSE estimates $\sigma^2$.
 
-$\sigma^2=(0.6231)^2=0.3882536$  ##Check seems small
+$\sigma^2=(0.6231)^2=0.3882536$ 
+
 $\sigma=0.6231$
 
 **h**
 
+Give a point estimate and 95% confidence interval for the slope and interpret each of these in words.
+
 ```{r}
 confint(model4, level=0.95)
-confint(model4, "ACT", level =0.95)
-```
 
-**i** 95% CI for ACT=28
+```
+We are 95% confident that the true value of the slope is (0.0135,0.0641). The mean of all values to create a point estimate for the the slope is 0.0388.
+
+**i**  
+
+Obtain a 95% interval estimate of the mean GPA for students whose ACT test score is 28. Interpret your confidence interval.
 
 ```{r}
-confint(model4, "ACT", level = 0.9) #is this right?
-```
-
-
-**j** 95% PI for ACT=28
-
-```{r}
-#use predict function and create new data frame with just ACT=28 new.data<-data.frame(ACT=28)
 ACT_28<- data.frame(ACT=28)
 predict(model4,ACT_28,interval="confidence", level = 0.95, se.fit = T)
 ```
-The prediction interval is (3.06, 3.34).
+We are 95% confident that the true value of the mean GPA for students whose ACT test score is 28 is (3.06,3.34). 
 
-## Problem 5 
+**j** 
+
+Predict GPA using a 95% prediction interval for students whose ACT test score is 28
+
+```{r}
+#use predict function and create new data frame with just ACT=28 new.data<-data.frame(ACT=28)
+
+predict(model4,ACT_28,interval="prediction", level = 0.95, se.fit = T)
+```
+
+The prediction interval is (1.96, 4.44).
+
+## Problem 5
+
+A medical study was conducted to study the relationship between infants’ systolic blood pressure and two explanatory variables, weight (kgm) and age (days). The portion of data for 25 infants are shown here.
 
 ```{r}
 age <- c(3, 4, 5, 6, 3, 4, 5, 6, 3, 4, 5, 6, 3, 4, 5, 6, 3, 4, 5, 6, 3, 4, 5, 6, 6) 
@@ -224,32 +306,44 @@ systolic_BP <- c(80, 90, 96, 102, 81, 96, 99, 110, 88, 90, 100, 102, 86, 93, 101
 # Create a data frame 
 infants <-data.frame(age, weight, systolic_BP)
 ```
-**a**
+
+**a** 
+
+Write a first-order multiple regression model relating Systolic BP to Age and Weight.
+
 $\hat{systolic BP}= \hat{\beta}_0 + \hat{\beta}_1 * age + \hat{\beta}_2 * weight + \epsilon$
 
 **b**
+
+Fit Multiple linear regression models to these data and obtain the estimated regression equation.
+
 ```{r}
 model5<- lm(systolic_BP ~ age+weight, data = infants)
 model5
 ```
+
 $\hat{systolic BP}= 57.264 + 5.804 * age + 3.316 * weight$
 
+**c** 
 
-**c** estimated residual std dev
+Obtain the estimated residual standard deviation
+
 ```{r}
 summary(model5)
 ```
- Sd=SE*n^2 ## Check ???
- 
-The residual standard deviation is 1533.75
-```{r}
-2.454*25^2
-```
+Standard error is the standard deviation of the parameter.
+
+The residual standard deviation is 2.454.
 
 
 **d**
 
-The coefficient of weight is directly related to the systolic BP. As weight increases by one kgm, systolic BP increases by 3.316.
+Provide an interpretation of β ̂_2, the coefficient of weight.
+
+The coefficient of weight is directly related to the systolic BP. As weight increases by one kgm, systolic BP increases by 3.316 when age is held constant.
 
 **e**
-Can hypothesis be rejected alpha=0.01
+
+Can the hypothesis of no overall predictive value of the model be rejected at the α = 0.01 level?
+
+The p-value is significantly less than alpha(8.69e-15<<0.01), so we reject the hypothesis.
